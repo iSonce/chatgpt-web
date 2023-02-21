@@ -24,3 +24,6 @@ pnpm dev
 
 ## Notice
 This project is just a simple demo for now
+
+## License
+MIT © Sonce
