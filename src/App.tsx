@@ -1,10 +1,5 @@
 import { useState, useRef } from 'react'
-import axios from 'axios'
-
-interface Message {
-  text: string
-  id?: string
-}
+import chat from './api/chat'
 
 function App() {
   const [messageList, setMessageList] = useState<Message[]>([])
@@ -18,32 +13,26 @@ function App() {
     if (inputEl.current === null) {
       return
     }
+
     if (inputEl.current.value === '') {
-      alert('please input your text!')
+      alert('please input your message text!')
       return
     }
-    let text = inputEl.current.value
-    let parentMessageId =
-      messageList.length === 0
-        ? undefined
-        : messageList[messageList.length - 1].id
+
+    let text: string = inputEl.current.value
+    let options: ChatContext = {
+      conversationId,
+      parentMessageId:
+        messageList.length === 0
+          ? undefined
+          : messageList[messageList.length - 1].id,
+    }
     setMessageList((pre) => [...pre, { text }])
-    axios
-      .post('/api/chat', {
-        prompt: text,
-        options: {
-          conversationId,
-          parentMessageId,
-        },
-      })
-      .then((res) => res.data.data)
-      .then((data) => {
-        let msg: Message = {
-          text: data.text,
-          id: data.id,
-        }
-        setMessageList((pre) => [...pre, msg])
-      })
+
+    chat(text, options).then((msg) => {
+      setMessageList((pre) => [...pre, msg])
+    })
+
     inputEl.current.value = ''
   }
   return (

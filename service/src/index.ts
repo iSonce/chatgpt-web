@@ -15,11 +15,11 @@ app.all('*', (_, res, next) => {
 
 app.post('/chat', async (req, res) => {
   try {
-    const { prompt, options = {} } = req.body as {
-      prompt: string
+    const { text, options = {} } = req.body as {
+      text: string
       options?: ChatContext
     }
-    const response = await chatReply(prompt, options)
+    const response = await chatReply(text, options)
     console.log(response.data)
     res.send(response)
   } catch (error) {

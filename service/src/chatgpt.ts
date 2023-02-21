@@ -8,7 +8,7 @@ export interface ChatContext {
   parentMessageId?: string
 }
 
-dotenv.config({path:'.env.local'})
+dotenv.config({ path: '.env.local' })
 dotenv.config()
 
 const apiKey = process.env.OPENAI_API_KEY
@@ -20,19 +20,15 @@ if (apiKey === undefined) throw new Error('OPENAI_API_KEY is not defined')
  */
 const api = new ChatGPTAPI({ apiKey, debug: false })
 
-async function chatReply(
-  message: string,
-  lastContext?: { conversationId?: string; parentMessageId?: string }
-) {
-  if (!message)
-    return sendResponse({ type: 'Fail', message: 'Message is empty' })
+async function chatReply(text: string, lastContext?: ChatContext) {
+  if (!text) return sendResponse({ type: 'Fail', message: 'text is empty' })
 
   try {
     let options: SendMessageOptions = {}
 
     if (lastContext) options = { ...lastContext }
 
-    const response = await api.sendMessage(message, { ...options })
+    const response = await api.sendMessage(text, { ...options })
 
     return sendResponse({ type: 'Success', data: response })
   } catch (error: any) {
