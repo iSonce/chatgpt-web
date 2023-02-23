@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.10.6
   '@emotion/styled': ^11.10.6
+  '@mui/icons-material': ^5.11.9
   '@mui/material': ^5.11.10
   '@types/node': ^18.14.0
   '@types/react': ^18.0.27
@@ -14,11 +15,13 @@ specifiers:
   react-dom: ^18.2.0
   typescript: ^4.9.3
   unocss: ^0.49.7
+  unocss-preset-scrollbar: ^0.2.1
   vite: ^4.1.0
 
 dependencies:
   '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
   '@emotion/styled': 11.10.6_oouaibmszuch5k64ms7uxp2aia
+  '@mui/icons-material': 5.11.9_ylmaxqh5wvme7ymgn4ys5vax6u
   '@mui/material': 5.11.10_xqeqsl5kvjjtyxwyi3jhw3yuli
   axios: 1.3.3
   react: 18.2.0
@@ -32,6 +35,7 @@ devDependencies:
   '@vitejs/plugin-react': 3.1.0_vite@4.1.2
   typescript: 4.9.5
   unocss: 0.49.7_vite@4.1.2
+  unocss-preset-scrollbar: 0.2.1_unocss@0.49.7
   vite: 4.1.2_@types+node@18.14.0
 
 packages:
@@ -676,6 +680,23 @@ packages:
     resolution: {integrity: sha512-YGEtucQ/Nl91VZkzYaLad47Cdui51n/hW+OQm4210g4N3/nZzBxmGeKfubEalf+ShKH4aYDS86XTO6q/TpZnjQ==}
     dev: false
 
+  /@mui/icons-material/5.11.9_ylmaxqh5wvme7ymgn4ys5vax6u:
+    resolution: {integrity: sha512-SPANMk6K757Q1x48nCwPGdSNb8B71d+2hPMJ0V12VWerpSsbjZtvAPi5FAn13l2O5mwWkvI0Kne+0tCgnNxMNw==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@mui/material': 5.11.10_xqeqsl5kvjjtyxwyi3jhw3yuli
+      '@types/react': 18.0.28
+      react: 18.2.0
+    dev: false
+
   /@mui/material/5.11.10_xqeqsl5kvjjtyxwyi3jhw3yuli:
     resolution: {integrity: sha512-hs1WErbiedqlJIZsljgoil908x4NMp8Lfk8di+5c7o809roqKcFTg2+k3z5ucKvs29AXcsdXrDB/kn2K6dGYIw==}
     engines: {node: '>=12.0.0'}
@@ -933,6 +954,10 @@ packages:
       unconfig: 0.3.7
     dev: true
 
+  /@unocss/core/0.31.17:
+    resolution: {integrity: sha512-DJ3Uk2ePVXvV1qQmgoLK44aqB6f0s+naOEvouI97nzVXDZgxDQPBxIPB/L4vvE4U+gQxEiHwwE3gJ75iPqVzXw==}
+    dev: true
+
   /@unocss/core/0.49.7:
     resolution: {integrity: sha512-RmSxSqpwrj2Qx4HQTg/xDZsimOfOWqGriUG1w0kFDhNmEoLuxZiDPEZhZYHIo2QaVzxxBdIiSKkMfvFOTqbUgA==}
     dev: true
@@ -958,6 +983,12 @@ packages:
       ofetch: 1.0.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@unocss/preset-mini/0.31.17:
+    resolution: {integrity: sha512-gVgMTOKLt3O1ym348QIBmR5sS9W0Ozkk5xelhH6e0VXcpg0dXDPDrl4hFErMy4x6IB86yyJG6Dz5JhcwQB13Ig==}
+    dependencies:
+      '@unocss/core': 0.31.17
     dev: true
 
   /@unocss/preset-mini/0.49.7:
@@ -1942,6 +1973,15 @@ packages:
       '@antfu/utils': 0.5.2
       defu: 6.1.2
       jiti: 1.17.1
+    dev: true
+
+  /unocss-preset-scrollbar/0.2.1_unocss@0.49.7:
+    resolution: {integrity: sha512-7ubHdOaUwr7xBn1glPpICNNsM2SZGjvWK5uRPNiQYsrZ9YFjsCGHk9x5S2R8pTkuMDQeiaSa/UQbYhjC8Fra5g==}
+    peerDependencies:
+      unocss: '>= 0.31.13 < 1'
+    dependencies:
+      '@unocss/preset-mini': 0.31.17
+      unocss: 0.49.7_vite@4.1.2
     dev: true
 
   /unocss/0.49.7_vite@4.1.2:
