@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import './App.css'
+import { v4 as uuidv4 } from 'uuid'
 
 const SONCE_AVATARS = import.meta.env.VITE_APP_SONCE_AVATARS_URL
 const OPENAI_AVATARS = import.meta.env.VITE_APP_OPENAI_AVATARS_URL
@@ -21,9 +22,7 @@ const OPENAI_AVATARS = import.meta.env.VITE_APP_OPENAI_AVATARS_URL
 function App() {
   const [textInput, setTextInput] = useState<string>('')
   const [messageList, setMessageList] = useState<Message[]>([])
-  const [conversationId, setConversationId] = useState<string>(
-    crypto.randomUUID()
-  )
+  const [conversationId, setConversationId] = useState<string>(uuidv4())
   const [sending, setSending] = useState<Boolean>(false)
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
