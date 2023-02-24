@@ -1,6 +1,6 @@
-import { TextareaHTMLAttributes, useRef, useState } from 'react'
+import { useState, useRef } from 'react'
 import chat from './api/chat'
-// import example from './common/example'
+import example from './common/example'
 import {
   TextField,
   Box,
@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
   Paper,
+  Typography,
 } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import './App.css'
@@ -24,6 +25,19 @@ function App() {
   const [messageList, setMessageList] = useState<Message[]>([])
   const [conversationId, setConversationId] = useState<string>(uuidv4())
   const [sending, setSending] = useState<Boolean>(false)
+  const [parentMessageId, setParentMessageId] = useState<string | undefined>(
+    undefined
+  )
+
+  const messageEnd = useRef<HTMLDivElement | null>(null)
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      if (messageEnd && messageEnd.current) {
+        messageEnd.current.scrollIntoView({ behavior: 'auto' })
+      }
+    }, 0)
+  }
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
@@ -32,6 +46,9 @@ function App() {
   }
 
   const handleSendMessage = () => {
+    if (sending) {
+      return
+    }
     if (textInput === '') {
       alert('please input your message text!')
       return
@@ -42,62 +59,64 @@ function App() {
     let text: string = textInput
     let options: ChatContext = {
       conversationId,
-      parentMessageId:
-        messageList.length === 0
-          ? undefined
-          : messageList[messageList.length - 1].id,
+      parentMessageId,
     }
     setMessageList((pre) => [...pre, { text }])
+    scrollToBottom()
 
     chat(text, options)
       .then((msg) => {
         setMessageList((pre) => [...pre, msg])
+        setParentMessageId(msg.id)
       })
       .finally(() => {
         setSending(false)
+        scrollToBottom()
       })
   }
 
   const isReverse = (idx: any) => {
-    return idx % 2 ? '' : ' reverse-container'
+    return messageList[idx].id ? '' : ' reverse-message-item'
   }
 
   return (
     <div className="overflow-hidden" id="app">
-      <Box className="overflow-y-auto overflow-x-hidden h-92vh scrollbar">
+      <Box className="overflow-y-auto overflow-x-auto h-92vh scrollbar">
         <List>
           {messageList.map((message, idx) => (
             <ListItem
               key={idx}
               alignItems="flex-start"
-              className={'min-w-550px' + isReverse(idx)}
+              className={'min-w-700px' + isReverse(idx)}
             >
               <ListItemAvatar className={isReverse(idx)}>
                 <Avatar src={idx % 2 ? OPENAI_AVATARS : SONCE_AVATARS} />
               </ListItemAvatar>
               <ListItemText
-                className={'ws-pre-wrap flex max-w-600px' + isReverse(idx)}
+                className={'ws-pre-wrap flex max-w-750px' + isReverse(idx)}
               >
                 <Paper
-                  className={'p-0.5rem'}
+                  className={idx % 2 ? 'mr-56px' : 'ml-56px'}
                   sx={{ backgroundColor: idx % 2 ? '#FFF' : '#DFFFE2' }}
                 >
-                  {message.text}
+                  <Typography className="p-0.6rem" variant={'body2'}>
+                    {message.text}
+                  </Typography>
                 </Paper>
               </ListItemText>
             </ListItem>
           ))}
         </List>
+        <div ref={messageEnd} />
       </Box>
-      <Box className="flex absolute bottom-0 z-100 bg-#FFF p-1/100 w-100vw">
+
+      <Box className="flex absolute bottom-0 z-100 bg-#FFF p-4px w-100vw h-60px">
         <TextField
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
           autoFocus={true}
           onKeyDown={handleEnterKey}
           fullWidth={true}
-          sx={{ borderColor: '#000' }}
-          disabled={!!sending}
         />
         <Button
           className="absolute bottom-0"

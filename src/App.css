@@ -6,7 +6,7 @@ body,
   overflow: hidden;
 }
 
-.reverse-container {
+.reverse-message-item {
   display: flex;
   flex-direction: row-reverse;
 }
