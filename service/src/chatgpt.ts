@@ -18,7 +18,17 @@ if (apiKey === undefined) throw new Error('OPENAI_API_KEY is not defined')
 /**
  * More Info: https://github.com/transitive-bullshit/chatgpt-api
  */
-const api = new ChatGPTAPI({ apiKey, debug: false })
+let api = new ChatGPTAPI({ apiKey, debug: false })
+
+// TODO...
+async function setApiKey(apiKey: string) {
+  try {
+    api = new ChatGPTAPI({ apiKey, debug: false })
+    return sendResponse({ type: 'Success' })
+  } catch (error: any) {
+    return sendResponse({ type: 'Fail', message: error.message })
+  }
+}
 
 async function chatReply(text: string, lastContext?: ChatContext) {
   if (!text) return sendResponse({ type: 'Fail', message: 'text is empty' })
@@ -36,4 +46,4 @@ async function chatReply(text: string, lastContext?: ChatContext) {
   }
 }
 
-export { chatReply }
+export { setApiKey, chatReply }

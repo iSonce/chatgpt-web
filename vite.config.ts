@@ -1,5 +1,8 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
+
+// unocss
 import UnoCSS from 'unocss/vite'
 import presetAttributify from 'unocss/preset-attributify'
 import presetUno from 'unocss/preset-uno'
@@ -9,6 +12,11 @@ import { presetScrollbar } from 'unocss-preset-scrollbar'
 export default defineConfig((env) => {
   const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
   return {
+    resolve: {
+      alias: {
+        '@': path.resolve(process.cwd(), 'src'),
+      },
+    },
     plugins: [
       react(),
       UnoCSS({

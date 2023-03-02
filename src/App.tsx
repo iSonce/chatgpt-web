@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import chat from './api/chat'
-import example from './common/example'
+// import example from './common/example'
 import {
   TextField,
   Box,
@@ -16,9 +16,12 @@ import {
 import SendIcon from '@mui/icons-material/Send'
 import './App.css'
 import { v4 as uuidv4 } from 'uuid'
+import setApiKey from './api/setApiKey'
+import SideBar from './components/SideBar'
 
-const SONCE_AVATARS = import.meta.env.VITE_APP_SONCE_AVATARS_URL
-const OPENAI_AVATARS = import.meta.env.VITE_APP_OPENAI_AVATARS_URL
+// IMG
+import SONCE_AVATAR from './assets/sonce.jpg'
+import OPENAI_AVATAR from './assets/openai.svg'
 
 function App() {
   const [textInput, setTextInput] = useState<string>('')
@@ -79,52 +82,66 @@ function App() {
     return messageList[idx].id ? '' : ' reverse-message-item'
   }
 
-  return (
-    <div className="overflow-hidden" id="app">
-      <Box className="overflow-y-auto overflow-x-auto h-92vh scrollbar">
-        <List>
-          {messageList.map((message, idx) => (
-            <ListItem
-              key={idx}
-              alignItems="flex-start"
-              className={'min-w-700px' + isReverse(idx)}
-            >
-              <ListItemAvatar className={isReverse(idx)}>
-                <Avatar src={idx % 2 ? OPENAI_AVATARS : SONCE_AVATARS} />
-              </ListItemAvatar>
-              <ListItemText
-                className={'ws-pre-wrap flex max-w-750px' + isReverse(idx)}
-              >
-                <Paper
-                  className={idx % 2 ? 'mr-56px' : 'ml-56px'}
-                  sx={{ backgroundColor: idx % 2 ? '#FFF' : '#DFFFE2' }}
-                >
-                  <Typography className="p-0.6rem" variant={'body2'}>
-                    {message.text}
-                  </Typography>
-                </Paper>
-              </ListItemText>
-            </ListItem>
-          ))}
-        </List>
-        <div ref={messageEnd} />
-      </Box>
+  const handleSetApiKey = (apiKey: string) => {
+    setApiKey(apiKey).then((res) => {
+      console.log(res)
+    })
+  }
 
-      <Box className="flex absolute bottom-0 z-100 bg-#FFF p-4px w-100vw h-60px">
-        <TextField
-          value={textInput}
-          onChange={(e) => setTextInput(e.target.value)}
-          autoFocus={true}
-          onKeyDown={handleEnterKey}
-          fullWidth={true}
-        />
-        <Button
-          className="absolute bottom-0"
-          onClick={handleSendMessage}
-          startIcon={<SendIcon className="rotate--45 p-0" />}
-          sx={{ padding: 0 }}
-          disabled={!!(sending || !textInput)}
-        ></Button>
+  return (
+    <div className="overflow-hidden h-100vh" id="app">
+      <Box
+        className="flex fixed h-100vh w-300px bg-white border-r-solid border-1 border-#BED9C0 z-2"
+        id="nav"
+      >
+        <SideBar />
+      </Box>
+      <Box id="main">
+        <Box className="overflow-y-auto overflow-x-auto h-100vh scrollbar">
+          <List>
+            {messageList.map((message, idx) => (
+              <ListItem
+                key={idx}
+                alignItems="flex-start"
+                className={'min-w-700px' + isReverse(idx)}
+              >
+                <ListItemAvatar className={isReverse(idx)}>
+                  <Avatar src={idx % 2 ? OPENAI_AVATAR : SONCE_AVATAR} />
+                </ListItemAvatar>
+                <ListItemText
+                  className={'ws-pre-wrap flex max-w-750px' + isReverse(idx)}
+                >
+                  <Paper
+                    className={idx % 2 ? 'mr-56px' : 'ml-56px'}
+                    sx={{ backgroundColor: idx % 2 ? '#FFF' : '#DFFFE2' }}
+                  >
+                    <Typography className="p-0.6rem" variant={'body2'}>
+                      {message.text}
+                    </Typography>
+                  </Paper>
+                </ListItemText>
+              </ListItem>
+            ))}
+          </List>
+          <div ref={messageEnd} className="h-8vh" />
+        </Box>
+        <Box className="relative">
+          <Box className="flex absolute bottom-0 z-1 bg-#FFF p-8px w-1/1">
+            <TextField
+              value={textInput}
+              onChange={(e) => setTextInput(e.target.value)}
+              autoFocus={true}
+              onKeyDown={handleEnterKey}
+              fullWidth={true}
+            />
+            <Button
+              onClick={handleSendMessage}
+              startIcon={<SendIcon className="rotate--45 p-0" />}
+              sx={{ padding: 0 }}
+              disabled={!!(sending || !textInput)}
+            ></Button>
+          </Box>
+        </Box>
       </Box>
     </div>
   )

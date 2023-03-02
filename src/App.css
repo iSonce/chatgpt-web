@@ -10,3 +10,15 @@ body,
   display: flex;
   flex-direction: row-reverse;
 }
+
+@media (max-width: 1020px) {
+  #nav {
+    display: none;
+  }
+}
+
+@media (min-width: 1020px) {
+  #main {
+    padding-left: 300px;
+  }
+}
