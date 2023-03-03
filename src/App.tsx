@@ -15,18 +15,19 @@ import {
 } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import './App.css'
-import { v4 as uuidv4 } from 'uuid'
+// import { v4 as uuidv4 } from 'uuid'
 import setApiKey from './api/setApiKey'
 import SideBar from './components/SideBar'
 
 // IMG
 import SONCE_AVATAR from './assets/sonce.jpg'
 import OPENAI_AVATAR from './assets/openai.svg'
+import { Message } from '@mui/icons-material'
 
 function App() {
   const [textInput, setTextInput] = useState<string>('')
   const [messageList, setMessageList] = useState<Message[]>([])
-  const [conversationId, setConversationId] = useState<string>(uuidv4())
+  // const [conversationId, setConversationId] = useState<string>(uuidv4())
   const [sending, setSending] = useState<Boolean>(false)
   const [parentMessageId, setParentMessageId] = useState<string | undefined>(
     undefined
@@ -61,16 +62,25 @@ function App() {
 
     let text: string = textInput
     let options: ChatContext = {
-      conversationId,
       parentMessageId,
     }
     setMessageList((pre) => [...pre, { text }])
     scrollToBottom()
 
     chat(text, options)
-      .then((msg) => {
+      .then((res) => {
+        if (res.data.status !== 'Success') {
+          throw Error(res.data.message)
+        }
+        const msg: Message = {
+          text: res.data.data.text,
+          id: res.data.data.id,
+        }
         setMessageList((pre) => [...pre, msg])
         setParentMessageId(msg.id)
+      })
+      .catch((err: any) => {
+        console.log(err)
       })
       .finally(() => {
         setSending(false)
@@ -106,14 +116,14 @@ function App() {
                 className={'min-w-700px' + isReverse(idx)}
               >
                 <ListItemAvatar className={isReverse(idx)}>
-                  <Avatar src={idx % 2 ? OPENAI_AVATAR : SONCE_AVATAR} />
+                  <Avatar src={message.id ? OPENAI_AVATAR : SONCE_AVATAR} />
                 </ListItemAvatar>
                 <ListItemText
                   className={'ws-pre-wrap flex max-w-750px' + isReverse(idx)}
                 >
                   <Paper
-                    className={idx % 2 ? 'mr-56px' : 'ml-56px'}
-                    sx={{ backgroundColor: idx % 2 ? '#FFF' : '#DFFFE2' }}
+                    className={message.id ? 'mr-56px' : 'ml-56px'}
+                    sx={{ backgroundColor: message.id ? '#FFF' : '#DFFFE2' }}
                   >
                     <Typography className="p-0.6rem" variant={'body2'}>
                       {message.text}

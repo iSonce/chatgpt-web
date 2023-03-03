@@ -13,14 +13,12 @@ async function example() {
 
   // send a follow-up
   res = await api.sendMessage('Can you expand on that?', {
-    conversationId: res.conversationId,
     parentMessageId: res.id,
   })
   console.log(res.text)
 
   // send another follow-up
   res = await api.sendMessage('What were we talking about?', {
-    conversationId: res.conversationId,
     parentMessageId: res.id,
   })
   console.log(res.text)
