@@ -23,6 +23,4 @@ interface ChatState {
   data: ChatData[]
 }
 
-interface ChatAction {
-  type: 'new chat'
-}
+

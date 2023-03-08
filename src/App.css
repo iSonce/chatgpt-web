@@ -6,9 +6,23 @@ body,
   overflow: hidden;
 }
 
-.reverse-message-item {
+#app {
+  overflow: hidden;
+  height: 100vh;
+}
+
+#nav {
   display: flex;
-  flex-direction: row-reverse;
+  position: fixed;
+  height: 100vh;
+  width: 300px;
+  --un-bg-opacity: 1;
+  background-color: rgba(255, 255, 255, var(--un-bg-opacity));
+  border-right-style: solid;
+  border-width: 1px;
+  --un-border-opacity: 1;
+  border-color: rgba(190, 217, 192, var(--un-border-opacity));
+  z-index: 2;
 }
 
 @media (max-width: 1020px) {
