@@ -5,15 +5,18 @@ import chat from '@/api/chat'
 
 import { StoreContext } from '@/store'
 
-export default function InputBar() {
+type props = {
+  // conversationIndex: number
+  conversationId: string
+}
+
+export default function InputBar({ conversationId }: props) {
   const [state, dispatch] = useContext(StoreContext)
   const [textInput, setTextInput] = useState<string>('')
   const [sending, setSending] = useState<Boolean>(false)
   const [parentMessageId, setParentMessageId] = useState<string | undefined>(
     undefined
   )
-
-  const conversationId = state.data[0].conversationId
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
@@ -35,10 +38,11 @@ export default function InputBar() {
     let text: string = textInput
     let options: ChatContext = {
       parentMessageId,
-    }
+    } 
     dispatch({
       type: 'new message',
       payload: {
+        // conversationIndex,
         conversationId,
         message: {
           text,
@@ -58,6 +62,7 @@ export default function InputBar() {
         dispatch({
           type: 'new message',
           payload: {
+            // conversationIndex,
             conversationId,
             message: msg,
           },

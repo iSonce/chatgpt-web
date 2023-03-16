@@ -11,6 +11,10 @@ const routes: RouteObject[] = [
     path: '/chat',
     element: <App />,
   },
+  {
+    path: '/chat/:conversationId',
+    element: <App />,
+  },
 ]
 
 const router = createBrowserRouter(routes)

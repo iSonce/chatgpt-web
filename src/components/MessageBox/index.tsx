@@ -1,4 +1,4 @@
-import { useRef, useContext, useMemo, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import {
   Box,
   ListItem,
@@ -11,16 +11,13 @@ import {
 } from '@mui/material'
 import './index.css'
 
-import { StoreContext } from '@/store'
-
 // IMG
 import SONCE_AVATAR from '@/assets/sonce.jpg'
 import OPENAI_AVATAR from '@/assets/openai.svg'
 
-export default function MessageBox() {
-  const [state, dispatch] = useContext(StoreContext)
-  const messageList = useMemo(() => state.data[0].messages, [state])
+type props = { messageList: Message[] }
 
+export default function MessageBox({ messageList }: props) {
   const messageEnd = useRef<HTMLDivElement | null>(null)
 
   const scrollToBottom = () => {
@@ -58,6 +55,7 @@ export default function MessageBox() {
                 sx={{ backgroundColor: message.id ? '#FFF' : '#DFFFE2' }}
               >
                 <Typography className="p-0.6rem" variant={'body2'}>
+                  {/* TODO: markdown to html */}
                   {message.text}
                 </Typography>
               </Paper>

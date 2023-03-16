@@ -1,8 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+
 import 'uno.css'
+
 import theme from './theme'
 import { ThemeProvider } from '@emotion/react'
+
 import router from './router'
 import { RouterProvider } from 'react-router-dom'
 
