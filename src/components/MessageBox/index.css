@@ -2,3 +2,13 @@
   display: flex;
   flex-direction: row-reverse;
 }
+
+.message-text {
+  padding: 0.6rem;
+}
+
+.message-text p{
+  display: inline;
+  margin: 0;
+  padding: 0;
+}

@@ -38,7 +38,7 @@ export default function InputBar({ conversationId }: props) {
     let text: string = textInput
     let options: ChatContext = {
       parentMessageId,
-    } 
+    }
     dispatch({
       type: 'new message',
       payload: {

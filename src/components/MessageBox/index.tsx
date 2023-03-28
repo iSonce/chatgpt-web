@@ -10,10 +10,13 @@ import {
   Typography,
 } from '@mui/material'
 import './index.css'
+import 'highlight.js/styles/github.css';
 
 // IMG
 import SONCE_AVATAR from '@/assets/sonce.jpg'
 import OPENAI_AVATAR from '@/assets/openai.svg'
+
+import md2html from '@/util/md2html'
 
 type props = { messageList: Message[] }
 
@@ -54,10 +57,11 @@ export default function MessageBox({ messageList }: props) {
                 className={message.id ? 'mr-56px' : 'ml-56px'}
                 sx={{ backgroundColor: message.id ? '#FFF' : '#DFFFE2' }}
               >
-                <Typography className="p-0.6rem" variant={'body2'}>
-                  {/* TODO: markdown to html */}
-                  {message.text}
-                </Typography>
+                <Typography
+                  className="message-text"
+                  variant={'body2'}
+                  dangerouslySetInnerHTML={{ __html: md2html(message.text) }}
+                ></Typography>
               </Paper>
             </ListItemText>
           </ListItem>
