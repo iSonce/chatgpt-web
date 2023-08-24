@@ -1,15 +1,22 @@
-import { Button, Box, Avatar, List, ListItem } from '@mui/material'
 import React, { useContext } from 'react'
-import SONCE_AVATAR from '@/assets/sonce.jpg'
+import { useNavigate } from 'react-router-dom'
+
+import { Button, Box, Avatar, List, ListItem } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+
 import { StoreContext } from '@/store'
 import { v4 as uuidv4 } from 'uuid'
-import { useNavigate, Link } from 'react-router-dom'
+
+import SONCE_AVATAR from '@/assets/sonce.jpg'
+
+import './index.css'
 
 type props = {
   historyList: ChatHistory[]
 }
 
-// TODO: UI optimize, delete conversation, edit title 
+// TODO: UI optimize, delete conversation, edit title
 function SideBar({ historyList }: props) {
   const [state, dispatch] = useContext(StoreContext)
 
@@ -28,9 +35,9 @@ function SideBar({ historyList }: props) {
 
   return (
     <nav className="flex flex-col p-10px flex-1">
-      <Button variant="outlined" fullWidth={true} onClick={handleNewChat}>
-        + new chat
-      </Button>
+      <a className="border-solid border-blue" onClick={handleNewChat}>
+        + New chat
+      </a>
       <Box className="flex-1">
         <List>
           {historyList.map((item) => (

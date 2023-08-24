@@ -30,6 +30,30 @@ const reducer = (state: ChatState, action: ChatAction): ChatState => {
           ),
         ],
       }
+    case 'delete chat': {
+      return {
+        history: state.history.filter(
+          (item) => item.conversationId !== action.payload.conversationId
+        ),
+        data: state.data.filter(
+          (item) => item.conversationId !== action.payload.conversationId
+        ),
+      }
+    }
+    case 'edit title': {
+      return {
+        history: [
+          {
+            conversationId: action.payload.conversationId,
+            title: action.payload.newTitle,
+          },
+          ...state.history.filter(
+            (item) => item.conversationId !== action.payload.conversationId
+          ),
+        ],
+        data: state.data,
+      }
+    }
     default:
       return state
   }

@@ -15,3 +15,16 @@ type ChatAction =
         conversationId: string
       }
     }
+  | {
+      type: 'delete chat'
+      payload: {
+        conversationId: string
+      }
+    }
+  | {
+      type: 'edit title'
+      payload: {
+        conversationId: string
+        newTitle: string
+      }
+    }
